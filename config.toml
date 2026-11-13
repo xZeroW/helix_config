@@ -1,0 +1,51 @@
+theme = "catppuccin_mocha"
+
+[editor]
+line-number = "relative"
+completion-replace = true
+cursorline = true
+color-modes = true
+bufferline = "multiple"
+end-of-line-diagnostics = "hint"
+
+[editor.statusline]
+center = ["version-control"]
+
+[editor.lsp]
+display-inlay-hints = true
+snippets = false
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.soft-wrap]
+enable = true
+wrap-indicator = ""
+
+[editor.gutters.line-numbers]
+min-width = 1
+
+[editor.whitespace]
+render = "all"
+
+[editor.indent-guides]
+render = true
+character = "╎" # Some characters that work well: "▏", "┆", "┊", "⸽"
+skip-levels = 1
+
+[editor.inline-diagnostics]
+cursor-line = "error"
+
+[keys.normal]
+C-r = ":rl" # reload the buffer from disk
+A-g = ":pipe-to hx-lazygit"
+
+[keys.normal.space.t]
+g = ":pipe-to hx-lazygit"
+b = ":pipe-to hx-bacon"
+s = ":write-all"
+r = ":reload-all"
