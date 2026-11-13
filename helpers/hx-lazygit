@@ -1,0 +1,25 @@
+#!/bin/sh
+# Open lazygit from Helix.
+# Inside Zellij: floating pane (blocking, so Helix can reload afterwards).
+# Outside Zellij: fall back to an external terminal window.
+
+if ! command -v lazygit >/dev/null 2>&1; then
+    echo "lazygit is not installed (sudo pacman -S lazygit)" >&2
+    exit 1
+fi
+
+root=$(git rev-parse --show-toplevel 2>/dev/null) || root=$PWD
+cd "$root" || exit 1
+
+if [ -n "$ZELLIJ" ]; then
+    exec zellij run --floating --close-on-exit --blocking \
+        --cwd "$root" --name lazygit \
+        --width 90% --height 90% --x 5% --y 5% \
+        -- lazygit
+fi
+
+if command -v alacritty >/dev/null 2>&1; then
+    exec alacritty -e lazygit
+fi
+
+exec konsole -e lazygit

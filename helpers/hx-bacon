@@ -1,0 +1,21 @@
+#!/bin/sh
+# Find the nearest Cargo project before launching Bacon.
+dir=$PWD
+while [ ! -f "$dir/Cargo.toml" ] && [ "$dir" != / ]; do
+    dir=${dir%/*}
+    [ -n "$dir" ] || dir=/
+done
+if [ ! -f "$dir/Cargo.toml" ]; then
+    echo 'hx-bacon: no Cargo.toml found in this directory or its parents' >&2
+    exit 1
+fi
+if [ -n "$ZELLIJ" ]; then
+    exec zellij run --floating --close-on-exit --blocking \
+        --cwd "$dir" --name bacon \
+        --width 90% --height 90% --x 5% --y 5% -- bacon
+fi
+cd "$dir" || exit 1
+if command -v alacritty >/dev/null 2>&1; then
+    exec alacritty -e bacon
+fi
+exec konsole -e bacon
